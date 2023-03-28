@@ -25,20 +25,20 @@ const fetchData = async () => {
 
   return (
     <div className="App">
-      <Container>
+      <Container className="expense-container">
           <Row>
             <Col md={12}>
               <AddExpense />
             </Col>
           </Row>
         </Container>
-        <Container>
+        <Container className="reports-container">
           {
             isLoaded ? <Row>
             <Col md={12}>
               <DailyExpenses />
             </Col>
-          </Row> : <div>Loading...</div>
+          </Row> : <div>...</div>
           }
           
         </Container>

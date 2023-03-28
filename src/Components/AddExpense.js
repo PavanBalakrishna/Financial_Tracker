@@ -5,11 +5,13 @@ import Expense from '../Models/Expense';
 import Utilities from '../Utilities/Utils';
 
 export default function AddExpense() {
-    const [expenseAmount, setExpenseAmount] = useState('');
+    const [expenseAmount, setExpenseAmount] = useState();
     const [expenseCategory, setExpenseCategory] = useState('');
     const [expenseCurrency, setExpenseCurrency] = useState('JPY');
     const [expenseName, setExpenseName] = useState('');
     const [expenseDate, setExpenseDate] = useState(new Date().toISOString().substring(0, 10));
+    const [successfullyAdded, setSuccessfullyAdded] = useState(false);
+    const [failedToadd, setFailedToadd] = useState(false);
     if (Utilities.GetCookie("FinancialTracker.ExpenseGroup") === "") {
         Utilities.SetCookie("FinancialTracker.ExpenseGroup", "Home")
     }
@@ -17,18 +19,27 @@ export default function AddExpense() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
-        
+
+
         let newid = 0;
         window.FinancialTracker.Expenses.forEach((m) => {
             if (m.Id > newid) {
                 newid = m.Id;
             }
         })
-        let addExpense = new Expense( newid + 1, expenseName, expenseDate, expenseCategory, expenseAmount, expenseCurrency, expenseGroup);
+        let addExpense = new Expense(newid + 1, expenseName, expenseDate, expenseCategory, expenseAmount, expenseCurrency, expenseGroup);
         window.FinancialTracker.Expenses.push(addExpense)
-        FileService.SaveDataToAWS("data/Expense.json", window.FinancialTracker.Expenses)
-        setExpenseAmount('');
+        FileService.SaveDataToAWS("data/Expense.json", window.FinancialTracker.Expenses, (resposne, err) => {
+            if (err === null) {
+                setSuccessfullyAdded(true);
+                setFailedToadd(false);
+            } else {
+                setSuccessfullyAdded(false);
+                setFailedToadd(true);
+            }
+        });
+
+        setExpenseAmount();
         setExpenseCategory('');
         setExpenseCurrency('JPY');
         setExpenseName('');
@@ -63,82 +74,111 @@ export default function AddExpense() {
                     </Form>
                 </Col>
             </Row>
-            <Row>
-                <Col m={12}>
-                <h3 >Add Details</h3>
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="expenseAmount">
-                            <Form.Label>Expense Amount</Form.Label>
-                            <Form.Control
-                                type="number"
-                                placeholder="Enter expense amount"
-                                value={expenseAmount}
-                                onChange={(event) => setExpenseAmount(event.target.value)}
-                                required
-                            />
-                        </Form.Group>
+            {
+                !successfullyAdded && !failedToadd ?
+                    (
+                        <Row>
 
-                        <Form.Group controlId="expenseCategory">
-                            <Form.Label>Expense Category</Form.Label>
-                            <Form.Control
-                                as="select"
-                                value={expenseCategory}
-                                onChange={(event) => setExpenseCategory(event.target.value)}
-                                required
-                            >
-                                <option value="">Select expense category</option>
-                                <option value="eatingout">Eating out</option>
-                                <option value="groceries">Groceries</option>
-                                <option value="home">Home</option>
-                                <option value="transportation">Transportation</option>
-                                <option value="accommodation">Accommodation</option>
-                                <option value="entertainment">Entertainment</option>
-                                <option value="others">Others</option>
-                                <option value="backlog">Backlog</option>
-                            </Form.Control>
-                        </Form.Group>
-                       
-                        <Form.Group controlId="expenseName">
-                            <Form.Label>Expense Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter expense name"
-                                value={expenseName}
-                                onChange={(event) => setExpenseName(event.target.value)}
-                                required
-                            />
-                        </Form.Group>                           
+                            <Col m={12}>
+                                <h3 >Add Details</h3>
+                                <Form onSubmit={handleSubmit}>
+                                    <Form.Group controlId="expenseAmount">
+                                        <Form.Label>Expense Amount</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            placeholder="Enter expense amount"
+                                            value={expenseAmount}
+                                            onChange={(event) => setExpenseAmount(parseInt(event.target.value))}
+                                            required
+                                        />
+                                    </Form.Group>
 
-                        <Form.Group controlId="expenseCurrency">
-                            <Form.Label>Expense Currency</Form.Label>
-                            <Form.Control
-                                as="select"
-                                value={expenseCurrency}
-                                onChange={(event) => setExpenseCurrency(event.target.value)}
-                                required
-                            >
-                                <option value="JPY">JPY</option>
-                                <option value="INR">INR</option>
-                            </Form.Control>
-                        </Form.Group>
+                                    <Form.Group controlId="expenseCategory">
+                                        <Form.Label>Expense Category</Form.Label>
+                                        <Form.Control
+                                            as="select"
+                                            value={expenseCategory}
+                                            onChange={(event) => setExpenseCategory(event.target.value)}
+                                            required
+                                        >
+                                            <option value="">Select expense category</option>
+                                            <option value="eatingout">Eating out</option>
+                                            <option value="groceries">Groceries</option>
+                                            <option value="home">Home</option>
+                                            <option value="transportation">Transportation</option>
+                                            <option value="accommodation">Accommodation</option>
+                                            <option value="entertainment">Entertainment</option>
+                                            <option value="others">Others</option>
+                                            <option value="backlog">Backlog</option>
+                                        </Form.Control>
+                                    </Form.Group>
 
-                        <Form.Group controlId="expenseDate">
-                            <Form.Label>Expense Date</Form.Label>
-                            <Form.Control
-                                type="date"
-                                placeholder="Enter expense date"
-                                value={expenseDate}
-                                onChange={(event) => setExpenseDate(event.target.value)}
-                                required
-                            />
-                        </Form.Group>
+                                    <Form.Group controlId="expenseName">
+                                        <Form.Label>Expense Name</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Enter expense name"
+                                            value={expenseName}
+                                            onChange={(event) => setExpenseName(event.target.value)}
+                                            required
+                                        />
+                                    </Form.Group>
 
-                        <Button  type="submit">
-                            Submit
-                        </Button>
-                    </Form>
-                </Col>
-            </Row>
+                                    <Form.Group controlId="expenseCurrency">
+                                        <Form.Label>Expense Currency</Form.Label>
+                                        <Form.Control
+                                            as="select"
+                                            value={expenseCurrency}
+                                            onChange={(event) => setExpenseCurrency(event.target.value)}
+                                            required
+                                        >
+                                            <option value="JPY">JPY</option>
+                                            <option value="INR">INR</option>
+                                        </Form.Control>
+                                    </Form.Group>
+
+                                    <Form.Group controlId="expenseDate">
+                                        <Form.Label>Expense Date</Form.Label>
+                                        <Form.Control
+                                            type="date"
+                                            placeholder="Enter expense date"
+                                            value={expenseDate}
+                                            onChange={(event) => setExpenseDate(event.target.value)}
+                                            required
+                                        />
+                                    </Form.Group>
+
+                                    <Button type="submit">
+                                        Submit
+                                    </Button>
+                                </Form>
+                            </Col>
+                        </Row>
+                    )
+                    : (
+                        <Row>
+                            <Col m={12}>
+                                {
+                                    successfullyAdded && <div class="success-alert">
+                                        Successfully added expense!
+                                    </div>
+                                }else{
+                                    failedToadd && <div class="failure-alert">
+                                        Failed to add expense!
+                                    </div>
+                                }
+                                <div >
+                                    <input type="button" value="Add another expense" onClick={() => {
+                                        setSuccessfullyAdded(false);
+                                        setFailedToadd(false);
+                                    }} />
+                                </div>
+
+                            </Col>
+                        </Row>
+
+                    )
+            }
         </Container>
     )
 }

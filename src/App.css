@@ -2,7 +2,7 @@
 body {
   font-family: Arial, sans-serif;
 
-  color: gold;
+  color: rgba(199, 170, 6, 0.938);
 }
 
 /* Heading styles */
@@ -12,7 +12,7 @@ h1 {
 }
 
 h2 {
-  color: gold;
+  color: rgba(199, 170, 6, 0.938);
   font-size: 2em;
 }
 
@@ -21,9 +21,14 @@ h3 {
   font-size: 1.5em;
 }
 
+h4 {
+  color: purple;
+  font-size: 1.5em;
+}
+
 /* Link styles */
 a {
-  color: gold;
+  color: rgba(199, 170, 6, 0.938);
   text-decoration: none;
 }
 
@@ -36,20 +41,20 @@ a:hover {
 button {
   background-color: purple;
   border: none;
-  color: gold;
+  color: rgba(199, 170, 6, 0.938);
   padding: 10px 20px;
   font-size: 1.2em;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: gold;
+  background-color: rgba(199, 170, 6, 0.938);
   color: purple;
 }
 
 /* Form styles */
 input[type="text"], input[type="email"], textarea {
-  border: 2px solid gold;
+  border: 2px solid rgba(199, 170, 6, 0.938);
   padding: 10px;
   font-size: 1.1em;
   color: purple;
@@ -58,13 +63,65 @@ input[type="text"], input[type="email"], textarea {
 input[type="submit"] {
   background-color: purple;
   border: none;
-  color: gold;
+  color: rgba(199, 170, 6, 0.938);
   padding: 10px 20px;
   font-size: 1.2em;
   cursor: pointer;
 }
 
 input[type="submit"]:hover {
-  background-color: gold;
+  background-color: rgba(199, 170, 6, 0.938);
   color: purple;
 }
+
+.success-alert {
+  background-color: #d4edda; /* light green */
+  color: #155724; /* dark green */
+  border: 1px solid #c3e6cb; /* lighter green */
+  padding: 0.75rem 1.25rem; /* some padding */
+  margin-bottom: 1rem; /* some margin between alerts */
+  border-radius: 0.25rem; /* rounded corners */
+}
+
+.failure-alert {
+  background-color: #f8d7da; /* light red */
+  color: #721c24; /* dark red */
+  border: 1px solid #f5c6cb; /* lighter red */
+  padding: 0.75rem 1.25rem; /* some padding */
+  margin-bottom: 1rem; /* some margin between alerts */
+  border-radius: 0.25rem; /* rounded corners */
+}
+
+.reports-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 3%;
+}
+
+/* Table styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+
+th {
+  background-color: purple;
+  color: rgba(199, 170, 6, 0.938);
+}
+
+tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+tr:hover {
+  background-color: #e2e6ea;
+}
+
