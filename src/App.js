@@ -1,6 +1,6 @@
 import React, { useState, useEffect  } from 'react'
 import AddExpense from './Components/AddExpense';
-import DailyExpenses from './Components/DailyExpenses'
+import Reports from './Components/Reports'
 import { Container, Row, Col } from 'react-bootstrap';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -36,9 +36,9 @@ const fetchData = async () => {
           {
             isLoaded ? <Row>
             <Col md={12}>
-              <DailyExpenses />
+              <Reports />
             </Col>
-          </Row> : <div>...</div>
+          </Row> : <div class="failure-alert">Loading OR Error</div>
           }
           
         </Container>

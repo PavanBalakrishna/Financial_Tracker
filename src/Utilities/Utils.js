@@ -1,5 +1,5 @@
 const Utilities = {
-    SetCookie(cname, cvalue, exdays=365) {
+    SetCookie(cname, cvalue, exdays = 365) {
         var d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
         var expires = "expires=" + d.toUTCString();
@@ -19,6 +19,46 @@ const Utilities = {
             }
         }
         return "";
+    },
+    ConvertToYen: function (amount, currency) {
+        switch (currency) {
+            case "JPY":
+                return amount;
+            case "USD":
+                return amount * 110;
+            case "EUR":
+                return amount * 130;
+            case "GBP":
+                return amount * 150;
+            case "AUD":
+                return amount * 80;
+            case "INR":
+                return amount * 1.5;
+            case "CAD":
+                return amount * 85;
+            case "CHF":
+                return amount * 120;
+            case "CNY":
+                return amount * 15;
+            case "HKD":
+                return amount * 14;
+            case "NZD":
+                return amount * 75;
+            case "SGD":
+                return amount * 80;
+            case "ZAR":
+                return amount * 7;
+            case "SEK":
+                return amount * 12;
+            case "THB":
+                return amount * 3.5;
+            case "KRW":
+                return amount * 0.1;
+            case "SKK":
+                return amount * 5;
+            default:
+                return amount;
+        }
     }
 }
 

@@ -27,7 +27,7 @@ export default function AddExpense() {
                 newid = m.Id;
             }
         })
-        let addExpense = new Expense(newid + 1, expenseName, expenseDate, expenseCategory, expenseAmount, expenseCurrency, expenseGroup);
+        let addExpense = new Expense(newid + 1, expenseName, expenseDate, expenseCategory, expenseAmount, expenseCurrency, expenseGroup, Utilities.ConvertToYen(expenseAmount, expenseCurrency));
         window.FinancialTracker.Expenses.push(addExpense)
         FileService.SaveDataToAWS("data/Expense.json", window.FinancialTracker.Expenses, (resposne, err) => {
             if (err === null) {
@@ -108,8 +108,9 @@ export default function AddExpense() {
                                             <option value="transportation">Transportation</option>
                                             <option value="accommodation">Accommodation</option>
                                             <option value="entertainment">Entertainment</option>
+                                            <option value="shopping">Shopping</option>
                                             <option value="others">Others</option>
-                                            <option value="backlog">Backlog</option>
+                                            <option value="backloginfo">Backlog Information</option>
                                         </Form.Control>
                                     </Form.Group>
 
@@ -132,8 +133,23 @@ export default function AddExpense() {
                                             onChange={(event) => setExpenseCurrency(event.target.value)}
                                             required
                                         >
-                                            <option value="JPY">JPY</option>
-                                            <option value="INR">INR</option>
+                                            <option value="JPY">Japanese Yen (JPY)</option>
+                                            <option value="INR">Indian Rupee (INR)</option>
+                                            <option value="THB">Thai Baht (THB)</option>
+                                            <option value="USD">US Dollar (USD)</option>
+                                            <option value="EUR">Euro (EUR)</option>
+                                            <option value="GBP">British Pound (GBP)</option>
+                                            <option value="AUD">Australian Dollar (AUD)</option>
+                                            <option value="CAD">Canadian Dollar (CAD)</option>
+                                            <option value="CHF">Swiss Franc (CHF)</option>
+                                            <option value="CNY">Chinese Yuan (CNY)</option>
+                                            <option value="HKD">Hong Kong Dollar (HKD)</option>
+                                            <option value="NZD">New Zealand Dollar (NZD)</option>
+                                            <option value="SGD">Singapore Dollar (SGD)</option>
+                                            <option value="ZAR">South African Rand (ZAR)</option>
+                                            <option value="SEK">Swedish Krona (SEK)</option>
+                                            <option value="KRW">South Korean Won (KRW)</option>
+                                            <option value="SKK">Slovak Koruna (SKK)</option>
                                         </Form.Control>
                                     </Form.Group>
 

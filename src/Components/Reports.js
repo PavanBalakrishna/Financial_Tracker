@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Row, Col , Table, } from 'react-bootstrap';
 
-export default function DailyExpenses() {
+export default function Reports() {
 
   const groupedExpenses = window.FinancialTracker.Expenses.reduce((result, expense) => {
     const group = expense.Group;
@@ -12,6 +12,8 @@ export default function DailyExpenses() {
     return result;
   }, {});
 
+  const dailyExpenses = window.FinancialTracker.Expenses.filter(m => m.Date === new Date().toISOString().substring(0, 10));
+
   const monthlyExpenses = window.FinancialTracker.Expenses.filter(m => m.Date.substring(0, 7) === new Date().toISOString().substring(0, 7)).reduce((result, expense) => {
     const month = expense.Date.substring(0, 7);
     if (!result[month]) {
@@ -20,6 +22,7 @@ export default function DailyExpenses() {
     result[month].push(expense);
     return result;
   }, {})
+
 
   return (
     <>
@@ -35,6 +38,7 @@ export default function DailyExpenses() {
                   <th>Date</th>
                   <th>Category</th>
                   <th>Amount</th>
+                  <th>Amount In Yen</th>
                   <th>Currency</th>
                   <th>Group</th>
                 </tr>
@@ -42,7 +46,7 @@ export default function DailyExpenses() {
               <tbody>
                 {
                 
-                window.FinancialTracker.Expenses.filter(m => m.Date === new Date().toISOString().substring(0, 10)).map((m) => {
+                dailyExpenses.map((m) => {
                   return (
                     <tr key={m.Id}>
                       <td>{m.Id}</td>
@@ -50,6 +54,7 @@ export default function DailyExpenses() {
                       <td>{m.Date}</td>
                       <td>{m.Category}</td>
                       <td>{m.Amount}</td>
+                      <td>{m.ConvertedAmount}</td>
                       <td>{m.Currency}</td>
                       <td>{m.Group}</td>
                     </tr>
@@ -57,6 +62,11 @@ export default function DailyExpenses() {
                 })}
               </tbody>
             </Table>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={3}>
+            <h4>Total: {dailyExpenses.reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)}</h4>
           </Col>
         </Row>
       </Container>
@@ -68,7 +78,7 @@ export default function DailyExpenses() {
               <thead>
                 <tr>
                   <th>Month</th>
-                  <th>Amount</th>
+                  <th>Total In Yen</th>
                 </tr>
               </thead>
               <tbody>
@@ -77,7 +87,7 @@ export default function DailyExpenses() {
                   return (
                     <tr key={month}>
                       <td>{month}</td>
-                      <td>{monthlyExpenses[month].reduce((sum, expense) => parseInt(sum) + parseInt(expense.Amount), 0)}</td>
+                      <td>{monthlyExpenses[month].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)}</td>
                     </tr>
                   )
                 })}
@@ -94,7 +104,7 @@ export default function DailyExpenses() {
               <thead>
                 <tr>
                   <th>Group</th>
-                  <th>Amount</th>
+                  <th>Total In Yen</th>
                 </tr>
               </thead>
               <tbody>
@@ -103,7 +113,7 @@ export default function DailyExpenses() {
                   return (
                     <tr key={group}>
                       <td>{group}</td>
-                      <td>{groupedExpenses[group].reduce((sum, expense) => parseInt(sum) + parseInt(expense.Amount), 0)}</td>
+                      <td>{groupedExpenses[group].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)}</td>
                     </tr>
                   )
                 })}
