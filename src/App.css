@@ -162,3 +162,7 @@ nav a:hover {
   font-size: 1.2em;
   cursor: pointer;
 }
+
+.form-control{
+  margin-bottom:17px;
+}

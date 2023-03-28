@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import FileService from '../Utilities/aws'
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 import Expense from '../Models/Expense';
 import Utilities from '../Utilities/Utils';
+import { ExpensesContext, ReRenderContext } from '../CustomContextProvider';
 
 export default function AddExpense() {
-    const [expenseAmount, setExpenseAmount] = useState();
+    const ReRenderContextObject = useContext(ReRenderContext);
+    const ExpenseContextObject = useContext(ExpensesContext);
+    const [expenseAmount, setExpenseAmount] = useState(0);
     const [expenseCategory, setExpenseCategory] = useState('');
     const [expenseCurrency, setExpenseCurrency] = useState('JPY');
     const [expenseName, setExpenseName] = useState('');
@@ -22,24 +25,25 @@ export default function AddExpense() {
 
 
         let newid = 0;
-        window.FinancialTracker.Expenses.forEach((m) => {
+        ExpenseContextObject.expensesState.forEach((m) => {
             if (m.Id > newid) {
                 newid = m.Id;
             }
         })
         let addExpense = new Expense(newid + 1, expenseName, expenseDate, expenseCategory, expenseAmount, expenseCurrency, expenseGroup, Utilities.ConvertToYen(expenseAmount, expenseCurrency));
-        window.FinancialTracker.Expenses.push(addExpense)
-        FileService.SaveDataToAWS("data/Expense.json", window.FinancialTracker.Expenses, (resposne, err) => {
+        ExpenseContextObject.setExpensesState([...ExpenseContextObject.expensesState, addExpense])
+        FileService.SaveDataToAWS("data/Expense.json", [...ExpenseContextObject.expensesState, addExpense], (resposne, err) => {
             if (err === null) {
                 setSuccessfullyAdded(true);
                 setFailedToadd(false);
+                ReRenderContextObject.setrerenderForm(!ReRenderContextObject.rerenderForm);
             } else {
                 setSuccessfullyAdded(false);
                 setFailedToadd(true);
             }
         });
 
-        setExpenseAmount();
+        setExpenseAmount(0);
         setExpenseCategory('');
         setExpenseCurrency('JPY');
         setExpenseName('');
@@ -55,7 +59,7 @@ export default function AddExpense() {
             </header>
             <Row>
                 <Col m={4}>
-                    <h3 >Expense Group</h3>
+                    <h4 >Expense Group</h4>
                     <Form>
                         <Form.Group controlId="expenseGroup">
                             <Form.Control
@@ -78,9 +82,8 @@ export default function AddExpense() {
                 !successfullyAdded && !failedToadd ?
                     (
                         <Row>
-
                             <Col m={12}>
-                                <h3 >Add Details</h3>
+                                <h4 >Add Details</h4>
                                 <Form onSubmit={handleSubmit}>
                                     <Form.Group controlId="expenseAmount">
                                         <Form.Label>Expense Amount</Form.Label>
@@ -175,11 +178,11 @@ export default function AddExpense() {
                         <Row>
                             <Col m={12}>
                                 {
-                                    successfullyAdded && <div class="success-alert">
+                                    successfullyAdded && <div className="success-alert">
                                         Successfully added expense!
                                     </div>
-                                }else{
-                                    failedToadd && <div class="failure-alert">
+                                }{
+                                    failedToadd && <div className="failure-alert">
                                         Failed to add expense!
                                     </div>
                                 }

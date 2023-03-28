@@ -59,7 +59,12 @@ const Utilities = {
             default:
                 return amount;
         }
-    }
+    },
+    SortByDates: function (a, b) {
+        const dateA = new Date(a.Date);
+        const dateB = new Date(b.Date);
+        return dateB - dateA;
+      }
 }
 
 export default Utilities;
