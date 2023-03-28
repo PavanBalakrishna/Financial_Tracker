@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Row, Col , Table, } from 'react-bootstrap';
 
-export default function Reports() {
+export default function Summary() {
 
   const groupedExpenses = window.FinancialTracker.Expenses.reduce((result, expense) => {
     const group = expense.Group;
@@ -65,8 +65,8 @@ export default function Reports() {
           </Col>
         </Row>
         <Row>
-          <Col md={3}>
-            <h4>Total: {dailyExpenses.reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)}</h4>
+          <Col md={9}>
+            <h6>Today's Total: {dailyExpenses.reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</h6>
           </Col>
         </Row>
       </Container>
@@ -87,7 +87,7 @@ export default function Reports() {
                   return (
                     <tr key={month}>
                       <td>{month}</td>
-                      <td>{monthlyExpenses[month].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)}</td>
+                      <td>{monthlyExpenses[month].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</td>
                     </tr>
                   )
                 })}
@@ -113,7 +113,7 @@ export default function Reports() {
                   return (
                     <tr key={group}>
                       <td>{group}</td>
-                      <td>{groupedExpenses[group].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)}</td>
+                      <td>{groupedExpenses[group].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</td>
                     </tr>
                   )
                 })}

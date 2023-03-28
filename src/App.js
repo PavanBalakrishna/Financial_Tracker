@@ -1,6 +1,7 @@
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import React, { useState, useEffect  } from 'react'
 import AddExpense from './Components/AddExpense';
-import Reports from './Components/Reports'
+import Summary from './Components/Summary'
 import { Container, Row, Col } from 'react-bootstrap';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -24,25 +25,44 @@ const fetchData = async () => {
 };
 
   return (
-    <div className="App">
-      <Container className="expense-container">
-          <Row>
-            <Col md={12}>
-              <AddExpense />
-            </Col>
-          </Row>
-        </Container>
-        <Container className="reports-container">
-          {
-            isLoaded ? <Row>
-            <Col md={12}>
-              <Reports />
-            </Col>
-          </Row> : <div class="failure-alert">Loading OR Error</div>
-          }
-          
-        </Container>
-    </div>
+    <Router>
+      <div className="App">
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/Summary">Summary</Link>
+            </li>
+          </ul>
+        </nav>
+        <Routes>
+          <Route path="/" exact element={<Container className="expense-container component-container">
+              <Row>
+                <Col md={12}>
+                  <AddExpense />
+                </Col>
+              </Row>
+            </Container>}>
+            
+          </Route>
+          <Route path="/Summary" element={<Container className="summary-container component-container">
+              {isLoaded ? (
+                <Row>
+                  <Col md={12}>
+                    <Summary />
+                  </Col>
+                </Row>
+              ) : (
+                <div class="failure-alert">Loading OR Error</div>
+              )}
+            </Container>}>
+            
+          </Route>
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

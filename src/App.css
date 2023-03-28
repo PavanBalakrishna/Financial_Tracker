@@ -21,9 +21,8 @@ h3 {
   font-size: 1.5em;
 }
 
-h4 {
+h4, h5, h6 {
   color: purple;
-  font-size: 1.5em;
 }
 
 /* Link styles */
@@ -38,7 +37,7 @@ a:hover {
 }
 
 /* Button styles */
-button {
+button,  {
   background-color: purple;
   border: none;
   color: rgba(199, 170, 6, 0.938);
@@ -92,11 +91,11 @@ input[type="submit"]:hover {
   border-radius: 0.25rem; /* rounded corners */
 }
 
-.reports-container {
+.component-container{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-top: 3%;
+  margin-top:3%;
 }
 
 /* Table styles */
@@ -125,3 +124,41 @@ tr:hover {
   background-color: #e2e6ea;
 }
 
+nav {
+  background-color: purple;
+  height: 50px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav li {
+  margin: 0 20px;
+  line-height: 50px;
+}
+
+nav a {
+  color: rgba(199, 170, 6, 0.938);
+  text-decoration: none;
+  padding: 0 10px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+nav a:hover {
+  border-bottom: 2px solid #fff;
+}
+
+
+.btn-primary{
+  background-color: purple!important;
+  color: rgba(199, 170, 6, 0.938);
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+}
