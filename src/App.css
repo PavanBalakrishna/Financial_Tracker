@@ -33,11 +33,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  color: purple;
-  text-decoration: underline;
-}
-
 /* Button styles */
 button,
 {
