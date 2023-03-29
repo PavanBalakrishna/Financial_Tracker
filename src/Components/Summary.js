@@ -176,7 +176,7 @@ export default function Summary() {
         </Row>
       </Container>
       <Container>
-        <h4>Category wise Total Expenses</h4>
+        <h4>Category Wise Expenses(All Time)</h4>
         <Row>
           <Col md={12}>
             <Table>
@@ -202,7 +202,7 @@ export default function Summary() {
         </Row>
       </Container>
       <Container>
-        <h4>Group wise Expenses total</h4>
+        <h4>Group Wise Expenses (All Time))</h4>
         <Row>
           <Col md={12}>
             <Table>
