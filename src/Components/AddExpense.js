@@ -8,7 +8,7 @@ import { ExpensesContext, ReRenderContext } from '../CustomContextProvider';
 export default function AddExpense() {
     const ReRenderContextObject = useContext(ReRenderContext);
     const ExpenseContextObject = useContext(ExpensesContext);
-    const [expenseAmount, setExpenseAmount] = useState(0);
+    const [expenseAmount, setExpenseAmount] = useState();
     const [expenseCategory, setExpenseCategory] = useState('');
     const [expenseCurrency, setExpenseCurrency] = useState('JPY');
     const [expenseName, setExpenseName] = useState('');
@@ -43,7 +43,7 @@ export default function AddExpense() {
             }
         });
 
-        setExpenseAmount(0);
+        setExpenseAmount();
         setExpenseCategory('');
         setExpenseCurrency('JPY');
         setExpenseName('');
