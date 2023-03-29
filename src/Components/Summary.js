@@ -1,13 +1,29 @@
 import React, {useContext} from 'react'
 import { Container, Row, Col, Table, } from 'react-bootstrap';
-import FileService from '../Utilities/aws'
-import { ExpensesContext, ReRenderContext } from '../CustomContextProvider';
+import { ExpensesContext } from '../CustomContextProvider';
+import Utilities from '../Utilities/Utilities';
 
 export default function Summary() {
 
-  const ReRenderContextObject = useContext(ReRenderContext);
   const ExpenseContextObject = useContext(ExpensesContext);
-  const groupedExpenses = ExpenseContextObject.expensesState.reduce((result, expense) => {
+  const currentDateRange = Utilities.GetCurrent25DateRange();
+  
+  const dailyExpenses = ExpenseContextObject.expensesState.filter(m => m.Date === new Date().toLocaleDateString("fr-CA"));
+
+  const monthly25Expenses = Utilities.GroupDatesByPeriod(ExpenseContextObject.expensesState);
+  if (!monthly25Expenses[currentDateRange]) {
+    monthly25Expenses[currentDateRange] = [];
+  }
+  const category25Expenses = monthly25Expenses[currentDateRange].reduce((result, expense) => {
+    let category = expense.Category;
+    if (!result[category]) {
+      result[category] = [];
+    }
+    result[category].push(expense);
+    return result;
+  }, {})
+  
+  const grouped25Expenses = monthly25Expenses[currentDateRange].reduce((result, expense) => {
     const group = expense.Group;
     if (!result[group]) {
       result[group] = [];
@@ -16,31 +32,23 @@ export default function Summary() {
     return result;
   }, {});
 
-  const dailyExpenses = ExpenseContextObject.expensesState.filter(m => m.Date === new Date().toISOString().substring(0, 10));
-
-  const monthlyExpenses = ExpenseContextObject.expensesState.filter(m => m.Date.substring(0, 7) === new Date().toISOString().substring(0, 7)).reduce((result, expense) => {
-    let month = expense.Date.substring(0, 7);
-    if (!result[month]) {
-      result[month] = [];
+  const categoryTotalExpenses = ExpenseContextObject.expensesState.reduce((result, expense) => {
+    let category = expense.Category;
+    if (!result[category]) {
+      result[category] = [];
     }
-    result[month].push(expense);
+    result[category].push(expense);
     return result;
   }, {})
 
-  const deleteExpense = (id) => {
-    return () => {
-      let listWithoutId = ExpenseContextObject.expensesState.filter(m => m.Id !== id);
-      ExpenseContextObject.setExpensesState(listWithoutId);
-      FileService.SaveDataToAWS("data/Expense.json", listWithoutId, (_, err) =>{
-        if(err){
-          console.log(err);
-        }else{
-          ReRenderContextObject.setrerenderForm(!ReRenderContextObject.rerenderForm);
-        }
-      });
-      
+  const groupedTotalExpenses = ExpenseContextObject.expensesState.reduce((result, expense) => {
+    const group = expense.Group;
+    if (!result[group]) {
+      result[group] = [];
     }
-  }
+    result[group].push(expense);
+    return result;
+  }, {});
 
 
   return (
@@ -76,7 +84,6 @@ export default function Summary() {
                         <td>{m.ConvertedAmount}</td>
                         <td>{m.Currency}</td>
                         <td>{m.Group}</td>
-                        <td><input type="button" value="Delete" onClick={deleteExpense(m.Id)} /> </td>
                       </tr>
                     )
                   })}
@@ -91,7 +98,7 @@ export default function Summary() {
         </Row>
       </Container>
       <Container>
-        <h4>Monthly Total Expenses</h4>
+        <h4>25 to 25 Expenses</h4>
         <Row>
           <Col md={12}>
             <Table>
@@ -103,11 +110,11 @@ export default function Summary() {
               </thead>
               <tbody>
                 {
-                  Object.keys(monthlyExpenses).map((month) => {
+                  Object.keys(monthly25Expenses).map((month) => {
                     return (
                       <tr key={month}>
                         <td>{month}</td>
-                        <td>{monthlyExpenses[month].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</td>
+                        <td>{monthly25Expenses[month].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</td>
                       </tr>
                     )
                   })}
@@ -117,7 +124,33 @@ export default function Summary() {
         </Row>
       </Container>
       <Container>
-        <h4>Group wise Expenses</h4>
+        <h4>Category wise Expenses for {currentDateRange}</h4>
+        <Row>
+          <Col md={12}>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Total In Yen</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  Object.keys(category25Expenses).map((category) => {
+                    return (
+                      <tr key={category}>
+                        <td>{category}</td>
+                        <td>{category25Expenses[category].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</td>
+                      </tr>
+                    )
+                  })}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
+      <Container>
+        <h4>Group wise Expenses for {currentDateRange}</h4>
         <Row>
           <Col md={12}>
             <Table>
@@ -129,11 +162,63 @@ export default function Summary() {
               </thead>
               <tbody>
                 {
-                  Object.keys(groupedExpenses).map((group) => {
+                  Object.keys(grouped25Expenses).map((group) => {
                     return (
                       <tr key={group}>
                         <td>{group}</td>
-                        <td>{groupedExpenses[group].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</td>
+                        <td>{grouped25Expenses[group].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</td>
+                      </tr>
+                    )
+                  })}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
+      <Container>
+        <h4>Category wise Total Expenses</h4>
+        <Row>
+          <Col md={12}>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Total In Yen</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  Object.keys(categoryTotalExpenses).map((category) => {
+                    return (
+                      <tr key={category}>
+                        <td>{category}</td>
+                        <td>{categoryTotalExpenses[category].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</td>
+                      </tr>
+                    )
+                  })}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
+      <Container>
+        <h4>Group wise Expenses total</h4>
+        <Row>
+          <Col md={12}>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Group</th>
+                  <th>Total In Yen</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  Object.keys(groupedTotalExpenses).map((group) => {
+                    return (
+                      <tr key={group}>
+                        <td>{group}</td>
+                        <td>{groupedTotalExpenses[group].reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</td>
                       </tr>
                     )
                   })}

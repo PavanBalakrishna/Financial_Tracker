@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import FileService from '../Utilities/aws'
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 import Expense from '../Models/Expense';
-import Utilities from '../Utilities/Utils';
+import Utilities from '../Utilities/Utilities';
 import { ExpensesContext, ReRenderContext } from '../CustomContextProvider';
 
 export default function AddExpense() {
@@ -12,7 +12,7 @@ export default function AddExpense() {
     const [expenseCategory, setExpenseCategory] = useState('');
     const [expenseCurrency, setExpenseCurrency] = useState('JPY');
     const [expenseName, setExpenseName] = useState('');
-    const [expenseDate, setExpenseDate] = useState(new Date().toISOString().substring(0, 10));
+    const [expenseDate, setExpenseDate] = useState(new Date().toLocaleDateString("fr-CA"));
     const [successfullyAdded, setSuccessfullyAdded] = useState(false);
     const [failedToadd, setFailedToadd] = useState(false);
     if (Utilities.GetCookie("FinancialTracker.ExpenseGroup") === "") {
@@ -47,7 +47,7 @@ export default function AddExpense() {
         setExpenseCategory('');
         setExpenseCurrency('JPY');
         setExpenseName('');
-        setExpenseDate(new Date().toISOString().substring(0, 10));
+        setExpenseDate(new Date().toLocaleDateString("fr-CA"));
         setExpenseGroup('Home');
 
     };
@@ -73,6 +73,7 @@ export default function AddExpense() {
                                 <option value="Home">Home</option>
                                 <option value="India">India</option>
                                 <option value="KruthikaParents">Kruthika Parents</option>
+                                <option value="PavanParents">Pavan Parents</option>
                             </Form.Control>
                         </Form.Group>
                     </Form>
@@ -105,15 +106,16 @@ export default function AddExpense() {
                                             required
                                         >
                                             <option value="">Select expense category</option>
-                                            <option value="eatingout">Eating out</option>
-                                            <option value="groceries">Groceries</option>
-                                            <option value="home">Home</option>
-                                            <option value="transportation">Transportation</option>
-                                            <option value="accommodation">Accommodation</option>
-                                            <option value="entertainment">Entertainment</option>
-                                            <option value="shopping">Shopping</option>
-                                            <option value="others">Others</option>
-                                            <option value="backloginfo">Backlog Information</option>
+                                            <option value="Eatingout">Eating out</option>
+                                            <option value="Groceries">Groceries</option>
+                                            <option value="Home">Home</option>
+                                            <option value="Bills">Bills</option>
+                                            <option value="Transportation">Transportation</option>
+                                            <option value="Accommodation">Accommodation</option>
+                                            <option value="Entertainment">Entertainment</option>
+                                            <option value="Shopping">Shopping</option>
+                                            <option value="Others">Others</option>
+                                            <option value="Backloginfo">Backlog Information</option>
                                         </Form.Control>
                                     </Form.Group>
 

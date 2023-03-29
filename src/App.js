@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import FileService from './Utilities/aws';
 import { ExpensesContext, ReRenderContext } from './CustomContextProvider';
-import Utilities from './Utilities/Utils';
+import Utilities from './Utilities/Utilities';
 
 window.FinancialTracker = {}
 window.FinancialTracker.Expenses = []
