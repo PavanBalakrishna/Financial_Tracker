@@ -1,7 +1,7 @@
 import React, {  useContext } from 'react'
-import { ExpensesContext, ReRenderContext } from '../CustomContextProvider';
+import { ExpensesContext, ReRenderContext } from '../../CustomContextProvider';
 import { Container, Row, Col, Table, } from 'react-bootstrap';
-import FileService from '../Utilities/aws'
+import FileService from '../../Utilities/aws'
 
 export default function AllExpenses() {
     const ReRenderContextObject = useContext(ReRenderContext);
@@ -10,7 +10,7 @@ export default function AllExpenses() {
         return () => {
           let listWithoutId = ExpenseContextObject.expensesState.filter(m => m.Id !== id);
           ExpenseContextObject.setExpensesState(listWithoutId);
-          FileService.SaveDataToAWS("data/Expense.json", listWithoutId, (_, err) =>{
+          FileService.SaveDataToAWS("data/Expenses.json", listWithoutId, (_, err) =>{
             if(err){
               console.log(err);
             }else{
@@ -22,7 +22,7 @@ export default function AllExpenses() {
       }
 
     return (
-        <Container>
+        <Container fluid>
             <h4>All Expenses</h4>
             <Row>
                 <Col md={12}>

@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react'
-import FileService from '../Utilities/aws'
+import FileService from '../../Utilities/aws'
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
-import Expense from '../Models/Expense';
-import Utilities from '../Utilities/Utilities';
-import { ExpensesContext, ReRenderContext } from '../CustomContextProvider';
+import Expense from '../../Models/Expense';
+import Utilities from '../../Utilities/Utilities';
+import { ExpensesContext, ReRenderContext } from '../../CustomContextProvider';
 
 export default function AddExpense() {
     const ReRenderContextObject = useContext(ReRenderContext);
@@ -32,28 +32,26 @@ export default function AddExpense() {
         })
         let addExpense = new Expense(newid + 1, expenseName, expenseDate, expenseCategory, expenseAmount, expenseCurrency, expenseGroup, Utilities.ConvertToYen(expenseAmount, expenseCurrency));
         ExpenseContextObject.setExpensesState([...ExpenseContextObject.expensesState, addExpense])
-        FileService.SaveDataToAWS("data/Expense.json", [...ExpenseContextObject.expensesState, addExpense], (resposne, err) => {
+        FileService.SaveDataToAWS("data/Expenses.json", [...ExpenseContextObject.expensesState, addExpense], (resposne, err) => {
             if (err === null) {
                 setSuccessfullyAdded(true);
                 setFailedToadd(false);
+                setExpenseAmount();
+                setExpenseCategory('');
+                setExpenseCurrency('JPY');
+                setExpenseName('');
+                setExpenseDate(new Date().toLocaleDateString("fr-CA"));
+                setExpenseGroup('Home');
                 ReRenderContextObject.setrerenderForm(!ReRenderContextObject.rerenderForm);
             } else {
                 setSuccessfullyAdded(false);
                 setFailedToadd(true);
             }
         });
-
-        setExpenseAmount();
-        setExpenseCategory('');
-        setExpenseCurrency('JPY');
-        setExpenseName('');
-        setExpenseDate(new Date().toLocaleDateString("fr-CA"));
-        setExpenseGroup('Home');
-
     };
     return (
 
-        <Container>
+        <Container fluid>
             <header>
                 <h1>Add Expense</h1>
             </header>

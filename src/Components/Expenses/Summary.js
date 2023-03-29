@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import { Container, Row, Col, Table, } from 'react-bootstrap';
-import { ExpensesContext } from '../CustomContextProvider';
-import Utilities from '../Utilities/Utilities';
+import { ExpensesContext } from '../../CustomContextProvider';
+import Utilities from '../../Utilities/Utilities';
 
 export default function Summary() {
 
@@ -53,7 +53,7 @@ export default function Summary() {
 
   return (
     <>
-      <Container>
+      <Container fluid>
         <h4>Today's Expenses</h4>
         <Row>
           <Col md={12}>
