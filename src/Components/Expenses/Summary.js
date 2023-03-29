@@ -93,7 +93,7 @@ export default function Summary() {
         </Row>
         <Row>
           <Col md={9}>
-            <h6>Today's Total: {dailyExpenses.reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</h6>
+            <h6>Total: {dailyExpenses.reduce((sum, expense) => parseInt(sum) + parseInt(expense.ConvertedAmount), 0)} Yen</h6>
           </Col>
         </Row>
       </Container>
@@ -202,7 +202,7 @@ export default function Summary() {
         </Row>
       </Container>
       <Container>
-        <h4>Group Wise Expenses (All Time))</h4>
+        <h4>Group Wise Expenses (All Time)</h4>
         <Row>
           <Col md={12}>
             <Table>

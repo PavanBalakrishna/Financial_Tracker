@@ -34,14 +34,14 @@ a {
 }
 
 /* Button styles */
-button,
+button
 {
-background-color: purple;
-border: none;
-color: rgba(199, 170, 6, 0.938);
-padding: 10px 20px;
-font-size: 1.2em;
-cursor: pointer;
+  background-color: purple;
+  border: none;
+  color: rgba(199, 170, 6, 0.938);
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
 }
 
 button:hover {
