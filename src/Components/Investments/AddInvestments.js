@@ -19,8 +19,10 @@ export default function AddInvestments() {
     const [location, setLocation] = useState("");
     const [owner, setOwner] = useState("");
     const [type, setType] = useState("");
+    const [sIPAmount, setSIPAmount] = useState("");
     const [successfullyAdded, setSuccessfullyAdded] = useState(false);
     const [failedToadd, setFailedToadd] = useState(false);
+    
 
 
     const handleSubmit = (e) => {
@@ -32,7 +34,9 @@ export default function AddInvestments() {
             currency,
             isSIP,
             location,
-            owner
+            owner,
+            type,
+            sIPAmount
         );
         InvestmentsContextObject.setInvestmentsState([...InvestmentsContextObject.investmentsState, newInvestment])
         FileService.SaveDataToAWS("data/Investments.json", [...InvestmentsContextObject.investmentsState, newInvestment], (resposne, err) => {
@@ -45,6 +49,8 @@ export default function AddInvestments() {
                 setIsSIP(false);
                 setLocation("");
                 setOwner("");
+                setType("");
+                setSIPAmount("");
                 ReRenderContextObject.setrerenderForm(!ReRenderContextObject.rerenderForm);
             } else {
                 setSuccessfullyAdded(false);
@@ -56,6 +62,9 @@ export default function AddInvestments() {
 
     return (
         <Container fluid>
+            <header>
+                <h1>Add Investment</h1>
+            </header>
             {
                 !successfullyAdded && !failedToadd ?
 
@@ -106,6 +115,16 @@ export default function AddInvestments() {
                                             onChange={(e) => setIsSIP(e.target.checked)}
                                         />
                                     </Form.Group>
+                                    <Form.Group controlId="sIPAmount">
+                                        <Form.Label>SIP Amount</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            value={sIPAmount}
+                                            onChange={(e) => setSIPAmount(e.target.value)}
+                                            {...(isSIP ? { required: true } : { disabled: true })}
+                                        />
+                                    </Form.Group>
+
 
                                     <Form.Group controlId="location">
                                         <Form.Label>Location</Form.Label>

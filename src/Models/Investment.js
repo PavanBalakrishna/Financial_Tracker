@@ -1,6 +1,6 @@
 export default class Investment{
  
-    constructor(id, amount, source,  currency, isSIP, location, owner, type ){
+    constructor(id, amount, source, currency, isSIP, location, owner, type, sIPAmount ){
         this.Id = id;
         this.Amount = amount;
         this.Currency = currency;
@@ -9,5 +9,6 @@ export default class Investment{
         this.Location = location;
         this.Owner = owner;
         this.Type = type;
+        this.SIPAmount = sIPAmount;
     }
 }

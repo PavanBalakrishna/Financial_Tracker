@@ -11,6 +11,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import FileService from './Utilities/aws';
 import { ExpensesContext, ReRenderContext, InvestmentsContext } from './CustomContextProvider';
 import Utilities from './Utilities/Utilities';
+import Investments from './Components/Investments/Investments';
 
 window.FinancialTracker = {}
 window.FinancialTracker.Expenses = []
@@ -92,6 +93,14 @@ function App() {
                   <Row>
                     <Col md={12}>
                       <AllExpenses />
+                    </Col>
+                  </Row>
+                </Container>}>
+                </Route>
+                <Route path="/Investments" element={<Container className="investments-container component-container" fluid>
+                  <Row>
+                    <Col md={12}>
+                      <Investments />
                     </Col>
                   </Row>
                 </Container>}>
