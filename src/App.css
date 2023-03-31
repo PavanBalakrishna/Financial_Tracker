@@ -176,6 +176,14 @@ nav a:hover {
   cursor: pointer;
 }
 
+.btn-danger {
+  color: rgba(199, 170, 6, 0.938);
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
 .form-control {
   margin-bottom: 17px;
 }

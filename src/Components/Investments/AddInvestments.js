@@ -27,8 +27,14 @@ export default function AddInvestments() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        let newid = 0;
+        InvestmentsContextObject.investmentsState.forEach((m) => {
+            if (m.Id > newid) {
+                newid = m.Id;
+            }
+        })
         const newInvestment = new Investment(
-            Math.random(), // Generate a random ID for the new investment
+            newid + 1, // Generate a random ID for the new investment
             amount,
             source,
             currency,
@@ -101,8 +107,8 @@ export default function AddInvestments() {
                                             required
                                         >
                                             <option value="">Select currency</option>
-                                            <option value="JPY">Japanese Yen (JPY)</option>
                                             <option value="INR">Indian Rupee (INR)</option>
+                                            <option value="JPY">Japanese Yen (JPY)</option>
                                         </Form.Control>
                                     </Form.Group>
 
