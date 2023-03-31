@@ -12,6 +12,7 @@ import FileService from './Utilities/aws';
 import { ExpensesContext, ReRenderContext, InvestmentsContext } from './CustomContextProvider';
 import Utilities from './Utilities/Utilities';
 import Investments from './Components/Investments/Investments';
+import Report from './Components/Investments/Report';
 
 window.FinancialTracker = {}
 window.FinancialTracker.Expenses = []
@@ -68,6 +69,9 @@ function App() {
                   <li>
                     <Link to="/AddInvestment">Add Investment</Link>
                   </li>
+                  <li>
+                    <Link to="/Report">Investment Reports</Link>
+                  </li>
                 </ul>
               </nav>
               </Container>
@@ -109,6 +113,14 @@ function App() {
                   <Row>
                     <Col md={12}>
                       <AddInvestment />
+                    </Col>
+                  </Row>
+                </Container>}>
+                </Route>
+                <Route path="/Report" element={<Container className="report-container component-container" fluid>
+                  <Row>
+                    <Col md={12}>
+                      <Report />
                     </Col>
                   </Row>
                 </Container>}>
