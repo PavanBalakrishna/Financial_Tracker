@@ -16,7 +16,10 @@ const FileService = {
             Body: dataString,
             Bucket: "financialtracker.pavanbalakrishna.com",
             Key: searchFileKey,
-            ACL: 'public-read'
+            ACL: 'public-read',
+            Metadata: {
+                'Cache-Control': "no-cache",
+            }
         };
 
         return s3.putObject(params, (err, responseData) => {
