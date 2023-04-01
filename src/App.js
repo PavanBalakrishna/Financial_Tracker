@@ -71,19 +71,19 @@ function App() {
                       <Link to="/" onClick={() => setIsOpen(false)}>Add Expense</Link>
                     </li>
                     <li>
-                      <Link to="/Summary" onClick={() => setIsOpen(false)}>Expenses Summary</Link>
+                      <Link to="/Expenses/Summary" onClick={() => setIsOpen(false)}>Expenses Report</Link>
                     </li>
                     <li>
-                      <Link to="/All" onClick={() => setIsOpen(false)}>All Expenses</Link>
+                      <Link to="/Expenses/All" onClick={() => setIsOpen(false)}>All Expenses</Link>
                     </li>
                     <li>
-                      <Link to="/Investments" onClick={() => setIsOpen(false)}>Investments</Link>
+                      <Link to="/Investments" onClick={() => setIsOpen(false)}>All Investments</Link>
                     </li>
                     <li>
-                      <Link to="/AddInvestment" onClick={() => setIsOpen(false)}>Add Investment</Link>
+                      <Link to="/Investments/AddInvestment" onClick={() => setIsOpen(false)}>Add Investment</Link>
                     </li>
                     <li>
-                      <Link to="/Report" onClick={() => setIsOpen(false)}>Investment Reports</Link>
+                      <Link to="/Investments/Report" onClick={() => setIsOpen(false)}>Investment Report</Link>
                     </li>
                   </ul>
                 </div>
@@ -99,7 +99,7 @@ function App() {
                     </Row>
                   </Container>}>
                   </Route>
-                  <Route path="/Summary" element={<Container className="summary-container component-container" fluid>
+                  <Route path="/Expenses/Summary" element={<Container className="summary-container component-container" fluid>
                     <Row>
                       <Col md={12}>
                         <Summary />
@@ -107,7 +107,7 @@ function App() {
                     </Row>
                   </Container>}>
                   </Route>
-                  <Route path="/All" exact element={<Container className="all-container component-container" fluid>
+                  <Route path="/Expenses/All" exact element={<Container className="all-container component-container" fluid>
                     <Row>
                       <Col md={12}>
                         <AllExpenses />
@@ -123,7 +123,7 @@ function App() {
                     </Row>
                   </Container>}>
                   </Route>
-                  <Route path="/AddInvestment" element={<Container className="addinvestment-container component-container" fluid>
+                  <Route path="/Investments/AddInvestment" element={<Container className="addinvestment-container component-container" fluid>
                     <Row>
                       <Col md={12}>
                         <AddInvestment />
@@ -131,7 +131,7 @@ function App() {
                     </Row>
                   </Container>}>
                   </Route>
-                  <Route path="/Report" element={<Container className="report-container component-container" fluid>
+                  <Route path="/Investments/Report" element={<Container className="report-container component-container" fluid>
                     <Row>
                       <Col md={12}>
                         <Report />

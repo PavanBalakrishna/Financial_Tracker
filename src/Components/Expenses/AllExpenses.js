@@ -1,4 +1,4 @@
-import React, {  useContext } from 'react'
+import React, { useContext } from 'react'
 import { ExpensesContext, ReRenderContext } from '../../CustomContextProvider';
 import { Container, Row, Col, Table, } from 'react-bootstrap';
 import FileService from '../../Utilities/aws'
@@ -8,18 +8,22 @@ export default function AllExpenses() {
     const ExpenseContextObject = useContext(ExpensesContext);
     const deleteExpense = (id) => {
         return () => {
-          let listWithoutId = ExpenseContextObject.expensesState.filter(m => m.Id !== id);
-          ExpenseContextObject.setExpensesState(listWithoutId);
-          FileService.SaveDataToAWS("data/Expenses.json", listWithoutId, (_, err) =>{
-            if(err){
-              console.log(err);
-            }else{
-              ReRenderContextObject.setrerenderForm(!ReRenderContextObject.rerenderForm);
+            const shouldDelete = window.confirm('Delete expense \'' + ExpenseContextObject.expensesState.filter(m => m.Id === id)[0].Name + '\'?');
+            if (!shouldDelete) {
+                return;
             }
-          });
-          
+            let listWithoutId = ExpenseContextObject.expensesState.filter(m => m.Id !== id);
+            ExpenseContextObject.setExpensesState(listWithoutId);
+            FileService.SaveDataToAWS("data/Expenses.json", listWithoutId, (_, err) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    ReRenderContextObject.setrerenderForm(!ReRenderContextObject.rerenderForm);
+                }
+            });
+
         }
-      }
+    }
 
     return (
         <Container fluid>
@@ -42,7 +46,7 @@ export default function AllExpenses() {
                         <tbody>
                             {
 
-                        ExpenseContextObject.expensesState.map((m) => {
+                                ExpenseContextObject.expensesState.map((m) => {
                                     return (
                                         <tr key={m.Id}>
                                             <td>{m.Id}</td>
@@ -53,7 +57,7 @@ export default function AllExpenses() {
                                             <td>{m.ConvertedAmount}</td>
                                             <td>{m.Currency}</td>
                                             <td>{m.Group}</td>
-                                            <td><input type="button" value="Delete" onClick={deleteExpense(m.Id)} /> </td>
+                                            <td><input type="button" className="btn btn-danger" value="Delete" onClick={deleteExpense(m.Id)} /> </td>
                                         </tr>
                                     )
                                 })}

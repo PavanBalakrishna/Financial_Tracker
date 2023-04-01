@@ -16,6 +16,10 @@ export default function Investments() {
     };
 
     const handleDelete = (id) => {
+        const shouldDelete = window.confirm('Delete investment \'' + InvestmentsContextObject.investmentsState.filter(i => i.Id === id)[0].Source + '\'?' );
+            if (!shouldDelete) {
+                return;
+            }
         let listWithoutId = InvestmentsContextObject.investmentsState.filter(m => m.Id !== id);
         FileService.SaveDataToAWS("data/Investments.json", listWithoutId, (resposne, err) => {
             if (err === null) {
