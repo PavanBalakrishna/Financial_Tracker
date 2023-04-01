@@ -68,28 +68,28 @@ function App() {
                 <button onClick={handleToggle} className="toggle-button">Close</button>
                   <ul>
                     <li>
-                      <Link to="/">Add Expense</Link>
+                      <Link to="/" onClick={() => setIsOpen(false)}>Add Expense</Link>
                     </li>
                     <li>
-                      <Link to="/Summary">Expenses Summary</Link>
+                      <Link to="/Summary" onClick={() => setIsOpen(false)}>Expenses Summary</Link>
                     </li>
                     <li>
-                      <Link to="/All">All Expenses</Link>
+                      <Link to="/All" onClick={() => setIsOpen(false)}>All Expenses</Link>
                     </li>
                     <li>
-                      <Link to="/Investments">Investments</Link>
+                      <Link to="/Investments" onClick={() => setIsOpen(false)}>Investments</Link>
                     </li>
                     <li>
-                      <Link to="/AddInvestment">Add Investment</Link>
+                      <Link to="/AddInvestment" onClick={() => setIsOpen(false)}>Add Investment</Link>
                     </li>
                     <li>
-                      <Link to="/Report">Investment Reports</Link>
+                      <Link to="/Report" onClick={() => setIsOpen(false)}>Investment Reports</Link>
                     </li>
                   </ul>
                 </div>
 
               </Container>
-              <Container className='main-content' fluid>
+              <Container className='main-content' fluid onClick={() => setIsOpen(false)}>
                 <Routes>
                   <Route path="/" exact element={<Container className="expense-container component-container" fluid>
                     <Row>
