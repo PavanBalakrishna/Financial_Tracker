@@ -42,7 +42,7 @@ export default function AddExpense() {
                 setExpenseName('');
                 setExpenseDate(new Date().toLocaleDateString("fr-CA"));
                 setExpenseGroup('Home');
-                ReRenderContextObject.setrerenderForm(!ReRenderContextObject.rerenderForm);
+                ReRenderContextObject.resetPage();
             } else {
                 setSuccessfullyAdded(false);
                 setFailedToadd(true);

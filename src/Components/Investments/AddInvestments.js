@@ -57,7 +57,7 @@ export default function AddInvestments() {
                 setOwner("");
                 setType("");
                 setSIPAmount("");
-                ReRenderContextObject.setrerenderForm(!ReRenderContextObject.rerenderForm);
+                ReRenderContextObject.resetPage();
             } else {
                 setSuccessfullyAdded(false);
                 setFailedToadd(true);
@@ -173,7 +173,10 @@ export default function AddInvestments() {
                                             <option value="HYBRID">HYBRID</option>
                                             <option value="CASH">CASH</option>
                                             <option value="FD">FD</option>
-                                            <option value="PPF">PPF</option>
+                                            <option value="ULIP">ULIP</option>
+                                            <option value="LIQUILOAN">LIQUILOAN</option>
+                                            <option value="LIC">LIC</option>
+                                            <option value="PF">PF</option>
                                             <option value="NPS">NPS</option>
                                             <option value="GOLD">GOLD</option>
                                             <option value="REALESTATE">REALESTATE</option>

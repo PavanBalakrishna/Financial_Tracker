@@ -26,6 +26,11 @@ function App() {
     fetchData();
   }, []);
 
+  const resetPage = () => {
+    setrerenderForm(!rerenderForm);
+    window.scrollTo(0, 0);
+  }
+
   const fetchData = async () => {
     const response = await FileService.GetListFromAWS("data/Expenses.json");
     window.FinancialTracker.Expenses = response.sort(Utilities.SortByDates);
@@ -48,7 +53,7 @@ function App() {
         }}>
           <ReRenderContext.Provider value={{
             rerenderForm: rerenderForm,
-            setrerenderForm: setrerenderForm
+            resetPage: resetPage
           }}>
             <div className="App">
               <Container fluid>
